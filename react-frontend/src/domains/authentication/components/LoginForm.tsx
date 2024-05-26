@@ -1,22 +1,23 @@
 import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
+import styles from './LoginForm.module.css'
 
 const LoginForm = () => {
   interface FormData {
-    title: string,
-    text: string,
+    email: string,
+    password: string,
   }
 
 	const [formData, setFormData] = useState({
-    title: '',
-    text: '',
+    email: '',
+    password: '',
   })
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     // const data = {
-    //   title: e.currentTarget.elements.namedItem('title')?.value || '',
-    //   text: e.currentTarget.elements.namedItem('text')?.value || '',
+    //   email: e.currentTarget.elements.namedItem('email')?.value || '',
+    //   password: e.currentTarget.elements.namedItem('password')?.value || '',
     // }
     try {
       const response = await axios.post('http://127.0.0.1:5000/login', formData);
@@ -27,19 +28,20 @@ const LoginForm = () => {
   }
 
 	return(
-		<form onSubmit={handleSubmit} className='form__container'>
+		<form onSubmit={handleSubmit} className={styles.form__container}>
 			<input
 				type="text"
-				name="title"
-				placeholder="Title"
-				value={formData.title}
-				onChange={(e) => { setFormData({...formData, title: e.target.value }) }}
+				name="email"
+				placeholder="email"
+				value={formData.email}
+				onChange={(e) => { setFormData({...formData, email: e.target.value }) }}
 				/>
-			<textarea
-				name="text"
-				placeholder="Text"
-				value={formData.text}
-				onChange={(e) => { setFormData({ ...formData, text: e.target.value })}}
+			<input
+				type="password"
+        name="password"
+				placeholder="password"
+				value={formData.password}
+				onChange={(e) => { setFormData({ ...formData, password: e.target.value })}}
 				/>
 			<button type="submit">Submit</button>
 		</form>
