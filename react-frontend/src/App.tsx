@@ -2,16 +2,17 @@
 import './App.css';
 import { useEffect, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
+import { Routes, Route, Link } from 'react-router-dom';
+import { Home } from './domains/home/pages/Home';
+import { LoginPage } from './domains/authentication/pages/LoginPage';
+import { SignUpPage } from './domains/authentication/pages/SignUpPage';
+import { Navbar } from './components/navbar/Navbar';
 
 function App() {
-  const [formData, setFormData] = useState({
-    title: '',
-    text: '',
-  })
   // useEffect(() => {
   //   fetch('http://127.0.0.1:5000/').then(response =>  response.json()).then(data => console.log(data))
   // })
-
+  const [user,setUser] = useState(null)
 
   const handleClick = async () => {
     try {
@@ -22,47 +23,20 @@ function App() {
     }
   }
 
-  interface FormData {
-    title: string,
-    text: string,
-  }
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    // const data = {
-    //   title: e.currentTarget.elements.namedItem('title')?.value || '',
-    //   text: e.currentTarget.elements.namedItem('text')?.value || '',
-    // }
-    try {
-      const response = await axios.post('http://127.0.0.1:5000/login', formData);
-      console.log('Form successfully submitted ', response.data)
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  const navLinks = [
+    { name: 'Home', link: '/' },
+    { name: 'Login', link: '/login'}
+  ]
 
   return (
     <div className="App">
-      <header className="App-header">
-       <p>My react app with Flask Backend</p>
-       <button onClick={handleClick}>Test</button>
-        <form onSubmit={handleSubmit} className='form__container'>
-          <input
-            type="text"
-            name="title"
-            placeholder="Title"
-            value={formData.title}
-            onChange={(e) => { setFormData({...formData, title: e.target.value }) }}
-            />
-          <textarea
-            name="text"
-            placeholder="Text"
-            value={formData.text}
-            onChange={(e) => { setFormData({ ...formData, text: e.target.value })}}
-            />
-        <button type="submit">Submit</button>
-        </form>
-      </header>
+      <Navbar links={navLinks}/>
+
+      <Routes>
+        <Route path='/' element={<Home />}/>
+        <Route path='/login' element={<LoginPage />} />
+        <Route path ='/signup' element={<SignUpPage />} />
+      </Routes>
     </div>
   );
 }
