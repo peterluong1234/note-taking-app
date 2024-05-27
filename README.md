@@ -5,3 +5,5 @@
 ## Active Flask
 `python3 -m flask run`
 
+## Update dependencies after installing new python package
+`pip freeze > requirements.txt`
