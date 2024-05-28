@@ -1,4 +1,7 @@
 # note-taking-app
+## Install Python dependencies
+`pip install -r requirements.txt`
+
 ## Activate Virtual Environment
 `source venv/bin/activate`
 
