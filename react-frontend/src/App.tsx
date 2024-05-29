@@ -12,7 +12,7 @@ function App() {
   // useEffect(() => {
   //   fetch('http://127.0.0.1:5000/').then(response =>  response.json()).then(data => console.log(data))
   // })
-  const [user,setUser] = useState(null)
+  const [user,setUser] = useState('1')
 
   const handleClick = async () => {
     try {
@@ -28,12 +28,14 @@ function App() {
     { name: 'Login', link: '/login'}
   ]
 
+  if (user) navLinks[1].name = 'Logout'
+
   return (
     <div className="App">
       <Navbar links={navLinks}/>
 
       <Routes>
-        <Route path='/' element={<Home />}/>
+        <Route path='/' element={<Home userId={user} />}/>
         <Route path='/login' element={<LoginPage />} />
         <Route path ='/signup' element={<SignUpPage />} />
       </Routes>

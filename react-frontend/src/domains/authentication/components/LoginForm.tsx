@@ -23,7 +23,7 @@ const LoginForm = () => {
       const response = await axios.post('http://127.0.0.1:5000/login', formData);
       console.log('Form successfully submitted ', response.data)
     } catch (error) {
-      console.error(error);
+      console.error('Error sending POST request', error);
     }
   }
 
