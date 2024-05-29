@@ -88,33 +88,39 @@ def signup():
 
 @app.route("/notes", methods=["POST"])
 def addNote():
+    # 1. Get data
     json_data = request.get_json()
 
+    # 2. Set data
     userID = json_data.get('userId')
     title = json_data.get('title')
     text = json_data.get('text')
 
-    if not userID or not title or not text:
+    # 3. error check
+    if not all([userID, title, text]):
         logger.error("Missing title or text")
         return jsonify({"error": "Missing title or text"}), 400
-    
-    # if userID is not None and title is not None:
-    #     logger.info(f"Received data: {userID}")
-    #     return jsonify({"message": "Data logged successfully!"}), 200
-    # else:
-    #     logger.error("No data received")
 
-    con = get_db_connection()
-    cur = con.cursor()
-    cur.execute('INSERT into Notes (UserID, Title, Text) VALUES (?, ? ,?)', (userID, title, text))
-    cur.execute('SELECT * FROM Notes where userID = ?', (userID))
-    notes = cur.fetchall()
-    con.commit()
-    con.close()
+    # 4. connect to database and make query
+    with get_db_connection() as con:
+        cur = con.cursor()
+        try:
+            # Insert new note
+            cur.execute('INSERT INTO Notes (UserID, Title, Text) VALUES (?, ?, ?)', (userID, title, text))
+            con.commit()
 
-    for note in notes:
-        print(f"{note['NoteId']}: {note['Text']}")
-    return jsonify({"message": "Data logged successfully!"}), 200
+            # Retrieve newly inserted note ID
+            note_id = cur.lastrowid
+
+            # Select all notes by userID
+            cur.execute('SELECT * FROM Notes WHERE UserID = ?', (userID,))
+            notes = cur.fetchall()
+
+            # Return response with success message and notes data
+            return jsonify({"message": "Note added successfully!", "note_id": note_id, "notes": notes}), 200
+        except Exception as e:
+            logger.error(f"Failed to add note: {str(e)}")
+            return jsonify({"error": "Failed to add note"}), 500
 
 if __name__ == '__main__':
     init_db()
