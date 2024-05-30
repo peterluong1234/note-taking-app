@@ -109,18 +109,24 @@ def addNote():
             cur.execute('INSERT INTO Notes (UserID, Title, Text) VALUES (?, ?, ?)', (userID, title, text))
             con.commit()
 
-            # Retrieve newly inserted note ID
-            note_id = cur.lastrowid
-
-            # Select all notes by userID
-            cur.execute('SELECT * FROM Notes WHERE UserID = ?', (userID,))
-            notes = cur.fetchall()
-
             # Return response with success message and notes data
-            return jsonify({"message": "Note added successfully!", "note_id": note_id, "notes": notes}), 200
+            return jsonify({"message": "Note added successfully!"}), 200
         except Exception as e:
             logger.error(f"Failed to add note: {str(e)}")
             return jsonify({"error": "Failed to add note"}), 500
+
+@app.route("/notes/all/<int:userid>", methods=["GET"])
+def getAllNotes(userid):
+    with get_db_connection() as con:
+        cur = con.cursor()
+        try:
+            cur.execute('SELECT * FROM Notes WHERE UserID = ?', (userid,))
+            notes = [dict(row) for row in cur.fetchall()]
+
+            return jsonify(notes), 200
+        except Exception as e:
+            return jsonify({"error": "Failed to retrieve notes"}), 500
+        
 
 if __name__ == '__main__':
     init_db()

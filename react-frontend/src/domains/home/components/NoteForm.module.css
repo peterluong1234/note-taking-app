@@ -1,5 +1,5 @@
 .form__wrapper {
-    max-width: 800px;
+    max-width: 400px;
     width: 90%;
     display: flex;
     flex-direction: column;
@@ -12,4 +12,20 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.form__title {
+    height: 20px;
+    font-size: 17px;
+}
+
+.form__text {
+    min-height: 150px;
+    font-size: 17px;
+}
+
+.form__submitbtn {
+    padding: 5px;
+    border-radius: 15px;
+    border: none;
 }

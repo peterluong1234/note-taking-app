@@ -1,0 +1,11 @@
+.note__card {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 20%;
+    background-color: lightyellow;
+    padding: 5px;
+}
+
+.note__text {
+    font-size: 17px;
+}
