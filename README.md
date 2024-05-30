@@ -1,9 +1,13 @@
 # note-taking-app
-## Install Python dependencies
-`pip install -r requirements.txt`
+## Set up virtual environmental
+`python3 -m venv venv`
 
 ## Activate Virtual Environment
-`source venv/bin/activate`
+Windows: `myenv\Scripts\activate`\
+Mac/Linux: `source venv/bin/activate`
+
+## Install Python dependencies
+`pip install -r requirements.txt`
 
 ## Active Flask
 `python3 -m flask run`
