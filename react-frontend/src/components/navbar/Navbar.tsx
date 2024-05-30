@@ -7,14 +7,17 @@ interface NavLinks {
 
 export const Navbar: React.FC<NavLinks> = ({ links }) => {
   return(
-    <nav className={styles.navbar__header}>
-      <ul className={styles.navbar__links}>
-        { links.map((nav, index) => (
-          <li key={index} className={styles.navbar__link}>
-            <Link to={nav.link}>{nav.name}</Link>
-          </li>
-        ))}
-      </ul>
-    </nav>
+    <div className={styles.navbar__container}>
+      <nav className={styles.navbar__header}>
+        <div className={styles.navbar__logo}>Notes App</div>
+        <ul className={styles.navbar__links}>
+          { links.map((nav, index) => (
+            <li key={index} className={styles.navbar__link}>
+              <Link to={nav.link}>{nav.name}</Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
   )
 }

@@ -9,8 +9,10 @@ interface Note {
 const Note: React.FC<Note> = ({ title, text }) => {
     return(
     <div className={styles.note__card}>
-        <h3 className={styles.note__title}>{title}</h3> 
-        <p className={styles.note__text}>{ text }</p>
+        <div className={styles.note__container}>
+            <h3 className={styles.note__title}>{title}</h3> 
+            <p className={styles.note__text}>{ text }</p>
+        </div>
     </div>
     )
 }

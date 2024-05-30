@@ -46,6 +46,7 @@ export const Home: React.FC<UserId> = ({ userId }) => {
     <div>
       <h1>Home</h1>
       <NoteForm userId={userId} setNotes={setNotes}/>
+      <h2>View Your Notes</h2>
       <div className={styles.notes__container}>
         {notes ? notes.map((note) => (
           <Note key={note.NoteID} title={note.Title} text={note.Text} />

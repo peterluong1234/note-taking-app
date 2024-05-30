@@ -87,7 +87,7 @@ def signup():
     return jsonify({"message": "Useradded successfully"}), 201
 
 @app.route("/notes", methods=["POST"])
-def addNote():
+def add_note():
     # 1. Get data
     json_data = request.get_json()
 
@@ -116,7 +116,7 @@ def addNote():
             return jsonify({"error": "Failed to add note"}), 500
 
 @app.route("/notes/all/<int:userid>", methods=["GET"])
-def getAllNotes(userid):
+def get_all_notes(userid):
     with get_db_connection() as con:
         cur = con.cursor()
         try:
@@ -126,7 +126,7 @@ def getAllNotes(userid):
             return jsonify(notes), 200
         except Exception as e:
             return jsonify({"error": "Failed to retrieve notes"}), 500
-        
+
 
 if __name__ == '__main__':
     init_db()

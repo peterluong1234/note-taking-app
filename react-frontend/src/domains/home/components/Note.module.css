@@ -1,9 +1,25 @@
 .note__card {
-    display: flex;
-    flex-direction: column;
+    /* display: flex; */
+    /* flex-direction: column; */
     flex: 0 0 20%;
     background-color: lightyellow;
     padding: 5px;
+    border: 1px solid black;
+    border-radius: 15px;
+    box-shadow: 3px 3px 0px black;
+}
+
+.note__container {
+    padding: 20px;
+    text-align: left;
+}
+
+.note__title {
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0;
+    border-bottom: 1px solid black;
+    text-overflow: clip;
 }
 
 .note__text {
