@@ -9,9 +9,9 @@ interface UserId {
 }
 
 interface Notes {
-  NoteID: string,
-  Title: string,
-  Text: string
+  note_id: string,
+  title: string,
+  text: string
 }
 
 export const Home: React.FC<UserId> = ({ userId }) => {
@@ -49,7 +49,7 @@ export const Home: React.FC<UserId> = ({ userId }) => {
       <h2>View Your Notes</h2>
       <div className={styles.notes__container}>
         {notes ? notes.map((note) => (
-          <Note key={note.NoteID} title={note.Title} text={note.Text} />
+          <Note key={note.note_id} title={note.title} text={note.text} />
         )): <div>Loading Data</div>}
       </div>
     </div>

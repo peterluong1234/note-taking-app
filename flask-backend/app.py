@@ -18,20 +18,20 @@ def get_db_connection():
 
 def init_db():
     create_users_table = '''
-    CREATE TABLE IF NOT EXISTS Users (
-        UserID INTEGER PRIMARY KEY AUTOINCREMENT,
-        Email TEXT NOT NULL UNIQUE,
-        Password TEXT NOT NULL
+    CREATE TABLE IF NOT EXISTS users (
+        user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT NOT NULL UNIQUE,
+        password TEXT NOT NULL
     )
     '''
 
     create_notes_table = '''
-    CREATE TABLE IF NOT EXISTS Notes (
-        NoteID INTEGER PRIMARY KEY AUTOINCREMENT,
-        UserID INTEGER,
-        Title TEXT NOT NULL,
-        Text TEXT NOT NULL,
-        FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
+    CREATE TABLE IF NOT EXISTS notes (
+        note_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        title TEXT NOT NULL,
+        text TEXT NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
     )
     '''
     con = get_db_connection()
@@ -80,7 +80,7 @@ def signup():
 
     con = get_db_connection()
     cur = con.cursor()
-    cur.execute('INSERT INTO Users (email, password) VALUES (?, ?)', (email, password))
+    cur.execute('INSERT INTO users (email, password) VALUES (?, ?)', (email, password))
     con.commit()
     con.close()
 
@@ -92,12 +92,12 @@ def add_note():
     json_data = request.get_json()
 
     # 2. Set data
-    userID = json_data.get('userId')
+    user_id = json_data.get('user_id')
     title = json_data.get('title')
     text = json_data.get('text')
 
     # 3. error check
-    if not all([userID, title, text]):
+    if not all([user_id, title, text]):
         logger.error("Missing title or text")
         return jsonify({"error": "Missing title or text"}), 400
 
@@ -106,7 +106,7 @@ def add_note():
         cur = con.cursor()
         try:
             # Insert new note
-            cur.execute('INSERT INTO Notes (UserID, Title, Text) VALUES (?, ?, ?)', (userID, title, text))
+            cur.execute('INSERT INTO notes (user_id, title, text) VALUES (?, ?, ?)', (user_id, title, text))
             con.commit()
 
             # Return response with success message and notes data
@@ -115,19 +115,27 @@ def add_note():
             logger.error(f"Failed to add note: {str(e)}")
             return jsonify({"error": "Failed to add note"}), 500
 
-@app.route("/notes/all/<int:userid>", methods=["GET"])
-def get_all_notes(userid):
+@app.route("/notes/all/<int:user_id>", methods=["GET"])
+def get_all_notes(user_id):
     with get_db_connection() as con:
         cur = con.cursor()
         try:
-            cur.execute('SELECT * FROM Notes WHERE UserID = ?', (userid,))
+            cur.execute('SELECT * FROM notes WHERE user_id = ?', (user_id,))
             notes = [dict(row) for row in cur.fetchall()]
 
             return jsonify(notes), 200
         except Exception as e:
             return jsonify({"error": "Failed to retrieve notes"}), 500
 
-
+@app.route("/notes/<user_id>/<note_id>")
+def delete_one_note(user_id, note_id):
+    with get_db_connection() as con:
+        cur = con.cursor
+        try:
+            cur.execute('DELETE FROM notes WHERE user_id = ? AND note_id = ?', (user_id, note_id))
+            return jsonify({"success": "Successfully deleted"}), 200
+        except Exception as e:
+            return jsonify({"error": "Failed to delete note"}), 500
 if __name__ == '__main__':
     init_db()
-    app.run()
+    app.run(debug=True)

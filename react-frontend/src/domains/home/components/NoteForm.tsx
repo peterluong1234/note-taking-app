@@ -3,9 +3,9 @@ import axios, { AxiosResponse } from 'axios';
 import styles from './NoteForm.module.css'
 
 interface Notes {
-  NoteID: string,
-  Title: string,
-  Text: string
+  note_id: string,
+  title: string,
+  text: string
 }
 
 interface NoteFormProps {
@@ -20,7 +20,7 @@ const NoteForm: React.FC<NoteFormProps> = ({ userId, setNotes }) => {
   }
 
 	const [formData, setFormData] = useState({
-    userId: userId,
+    user_id: userId,
     title: '',
     text: '',
   })
