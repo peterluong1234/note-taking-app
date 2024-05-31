@@ -38,7 +38,7 @@ export const Home: React.FC<UserId> = ({ userId }) => {
         console.error(error)
       }
     }
-    
+
     getNotes()
   }, [])
 
