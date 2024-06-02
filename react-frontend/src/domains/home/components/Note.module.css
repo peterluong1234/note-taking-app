@@ -10,15 +10,32 @@
 }
 
 .note__container {
+    position: relative;
     padding: 20px;
     text-align: left;
+}
+
+.note__header {
+    border-bottom: 1px solid black;
+    position: relative;
+}
+
+.note__delete_btn {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    width: 10px;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    font-weight: 900;
+
 }
 
 .note__title {
     font-size: 20px;
     font-weight: 500;
     margin: 0;
-    border-bottom: 1px solid black;
     text-overflow: clip;
 }
 

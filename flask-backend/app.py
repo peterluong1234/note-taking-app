@@ -127,15 +127,18 @@ def get_all_notes(user_id):
         except Exception as e:
             return jsonify({"error": "Failed to retrieve notes"}), 500
 
-@app.route("/notes/<user_id>/<note_id>")
+@app.route("/notes/<user_id>/<note_id>", methods=['DELETE'])
 def delete_one_note(user_id, note_id):
     with get_db_connection() as con:
-        cur = con.cursor
+        cur = con.cursor()
         try:
             cur.execute('DELETE FROM notes WHERE user_id = ? AND note_id = ?', (user_id, note_id))
+            con.commit()
+
             return jsonify({"success": "Successfully deleted"}), 200
         except Exception as e:
-            return jsonify({"error": "Failed to delete note"}), 500
+            return jsonify({"error": f"Failed to delete note: {str(e)}"}), 500
+
 if __name__ == '__main__':
     init_db()
     app.run(debug=True)

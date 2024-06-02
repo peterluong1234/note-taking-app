@@ -19,7 +19,7 @@ export const Home: React.FC<UserId> = ({ userId }) => {
 
   const fetchNotes = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:5000/notes/all/1`)
+      const response = await axios.get(`http://localhost:5000/notes/all/1`)
       console.log("Response Data:", response.data)
       return response.data
     } catch (error) {
@@ -49,7 +49,7 @@ export const Home: React.FC<UserId> = ({ userId }) => {
       <h2>View Your Notes</h2>
       <div className={styles.notes__container}>
         {notes ? notes.map((note) => (
-          <Note key={note.note_id} title={note.title} text={note.text} />
+          <Note key={note.note_id} title={note.title} text={note.text} user_id={userId} setNotes={setNotes} note_id={note.note_id}/>
         )): <div>Loading Data</div>}
       </div>
     </div>
