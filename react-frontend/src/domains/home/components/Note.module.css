@@ -2,7 +2,7 @@
     /* display: flex; */
     /* flex-direction: column; */
     position: relative;
-    flex: 0 0 20%;
+    flex: 0 0 30%;
     background-color: lightyellow;
     padding: 5px;
     border: 1px solid black;
@@ -54,8 +54,10 @@
     font-weight: 500;
     margin: 0;
     text-overflow: clip;
+    margin-bottom: 5px;
 }
 
 .note__text {
     font-size: 17px;
+    margin: 10px 0;
 }

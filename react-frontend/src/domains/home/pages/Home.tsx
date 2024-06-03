@@ -67,15 +67,23 @@ export const Home: React.FC<UserId> = ({ userId }) => {
       <div className={styles.notes__display_container}>
         <div className={styles.notes__display_header}>
           <h2 className={styles.notes__display_header_text}>{!showTrash ? 'Notes' : 'Trash'}</h2>
-          <button onClick={() => setShowTrash(!showTrash)} className={styles.notes__display_button}>
-            Show {showTrash ? 'Notes' : 'Trash'}
-          </button>
+          <div>
+            <button onClick={() => setShowTrash(!showTrash)} className={styles.notes__display_button}>
+              Show {showTrash ? 'Notes' : 'Trash'}
+            </button>
+            { showTrash ? <button className={styles.notes__display_button}>Empty Trash</button> : ''}
+          </div>
         </div>
         <div className={styles.notes__container}>
           {notes.length > 0 ? renderNotes(notes, showTrash) : <div>Loading Data</div>}
         </div>
       </div>
-
+      <div className={styles.notes__update_container}>
+        <form action="" className={styles.notes__form}>
+          <input />
+          <textarea />
+        </form>
+      </div>
     </div>
   );
 }
