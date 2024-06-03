@@ -5,7 +5,8 @@ import axios from "axios";
 interface Notes {
     note_id: string,
     title: string,
-    text: string
+    text: string,
+    deleted: boolean,
 }
 
 interface Note {
@@ -13,10 +14,11 @@ interface Note {
     note_id: string,
     title: string,
     text: string,
+    deleted: boolean,
     setNotes: React.Dispatch<React.SetStateAction<Notes[]>>,
 }
 
-const Note: React.FC<Note> = ({ title, text, user_id, note_id, setNotes }) => {
+const Note: React.FC<Note> = ({ title, text, user_id, note_id, deleted, setNotes }) => {
     const fetchNotes = async () => {
         try {
           const response = await axios.get(`http://127.0.0.1:5000/notes/all/1`)
@@ -30,7 +32,9 @@ const Note: React.FC<Note> = ({ title, text, user_id, note_id, setNotes }) => {
 
     const handleDeleteClick = async () => {
         try {
-            await axios.delete(`http://localhost:5000/notes/${user_id}/${note_id}`)
+            const response = await axios.post(`http://localhost:5000/notes/toggle_deleted/${user_id}/${note_id}`)
+            const data = await response.data
+            console.log(data)
             const updatedNotes = await fetchNotes()
             setNotes(updatedNotes)
         } catch (error) {
@@ -42,7 +46,14 @@ const Note: React.FC<Note> = ({ title, text, user_id, note_id, setNotes }) => {
     return(
     <div className={styles.note__card}>
         <div className={styles.note__container}>
-            <button onClick={handleDeleteClick} className={styles.note__delete_btn}>X</button>
+            <div className={styles.note__btns}>
+            { deleted ?
+                <button onClick={handleDeleteClick} className={styles.note__restore_btn}>Restore</button>
+                :
+                <button onClick={handleDeleteClick} className={styles.note__delete_btn}>Delete</button>
+            }
+            <button className={styles.note__update_btn}>Update</button>
+            </div>
             <div className={styles.note__header}>
                 <h3 className={styles.note__title}>{title}</h3>     
             </div>

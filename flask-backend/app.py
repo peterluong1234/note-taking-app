@@ -113,7 +113,29 @@ def add_note():
             return jsonify({"message": "Note added successfully!"}), 200
         except Exception as e:
             logger.error(f"Failed to add note: {str(e)}")
+            
             return jsonify({"error": "Failed to add note"}), 500
+
+@app.route('/notes/toggle_deleted/<user_id>/<note_id>', methods=['POST'])
+def toggle_deleted(user_id, note_id):
+    with get_db_connection() as con:
+        cur = con.cursor()
+        try:
+            cur.execute('SELECT deleted FROM notes WHERE user_id = ? AND note_id = ?', (user_id, note_id))
+            row = cur.fetchone()
+
+            print(row[0])
+            current_value = row[0]
+            new_value = 0 if current_value == 1 else 1
+
+            cur.execute("UPDATE notes SET deleted = ? WHERE user_id = ? AND note_id = ?", (new_value, user_id, note_id))
+            con.commit()
+
+            return jsonify({'user_id': user_id, 'note_id': note_id, 'deleted': bool(new_value)})
+        except Exception as e:
+            logger.error(f"Error toggling delete note: {str(e)}")
+            return jsonify({"error": "Failed to edit note"}), 500
+
 
 @app.route("/notes/all/<int:user_id>", methods=["GET"])
 def get_all_notes(user_id):
@@ -121,7 +143,14 @@ def get_all_notes(user_id):
         cur = con.cursor()
         try:
             cur.execute('SELECT * FROM notes WHERE user_id = ?', (user_id,))
-            notes = [dict(row) for row in cur.fetchall()]
+            rows = cur.fetchall()
+            # notes = [dict(row) for row in cur.fetchall()]
+
+            notes = []
+            for row in rows:
+                note = dict(row)
+                note['deleted'] = bool(note['deleted'])
+                notes.append(note)
 
             return jsonify(notes), 200
         except Exception as e:

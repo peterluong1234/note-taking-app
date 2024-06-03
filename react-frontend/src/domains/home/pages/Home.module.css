@@ -1,8 +1,43 @@
+.notes__home_container {
+    display: flex;
+}
+
+.notes__sidebar {
+    margin: 15px;
+    flex: 0 0 18%;
+    margin-top: 50px;
+    padding: 15px;
+    border: 2px solid black;
+    border-radius: 15px;
+    box-shadow: 5px 5px 0 black;
+}
+
+.notes__display_container {
+    flex: 0 0 75%;
+}
+
+.notes__display_button {
+    background-color: white;
+    padding: 5px 10px;
+    box-shadow: 2px 2px 0 black;
+}
+
+.notes__display_header {
+    display: flex;
+    margin-left: 50px;
+    justify-content: space-between;
+    max-width: 80%;
+    margin-top: 20px;
+}
+
+.notes__display_header_text {
+    margin: 0;
+}
+
 .notes__container {
     max-width: 1000px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     margin-left: auto;
     margin-right: auto;
     margin-top: 50px;

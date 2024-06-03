@@ -11,11 +11,13 @@ interface UserId {
 interface Notes {
   note_id: string,
   title: string,
-  text: string
+  text: string,
+  deleted: boolean,
 }
 
 export const Home: React.FC<UserId> = ({ userId }) => {
   const [notes, setNotes] = useState<Notes[]>([]);
+  const [showTrash, setShowTrash] = useState(false);
 
   const fetchNotes = async () => {
     try {
@@ -42,16 +44,38 @@ export const Home: React.FC<UserId> = ({ userId }) => {
     getNotes()
   }, [])
 
+  const renderNotes = (notes: Notes[], showTrash: boolean) => {
+    return notes.filter(note => note.deleted === showTrash).map((note) => (
+      <Note
+        key={note.note_id}
+        title={note.title}
+        text={note.text}
+        user_id={userId}
+        setNotes={setNotes}
+        note_id={note.note_id}
+        deleted={note.deleted}
+      />
+    ));
+  };
+
   return (
-    <div>
-      <h1>Home</h1>
-      <NoteForm userId={userId} setNotes={setNotes}/>
-      <h2>View Your Notes</h2>
-      <div className={styles.notes__container}>
-        {notes ? notes.map((note) => (
-          <Note key={note.note_id} title={note.title} text={note.text} user_id={userId} setNotes={setNotes} note_id={note.note_id}/>
-        )): <div>Loading Data</div>}
+    <div className={styles.notes__home_container}>
+      <div className={styles.notes__sidebar}>
+        <h2>Add Note</h2>
+        <NoteForm userId={userId} setNotes={setNotes} />
       </div>
+      <div className={styles.notes__display_container}>
+        <div className={styles.notes__display_header}>
+          <h2 className={styles.notes__display_header_text}>{!showTrash ? 'Notes' : 'Trash'}</h2>
+          <button onClick={() => setShowTrash(!showTrash)} className={styles.notes__display_button}>
+            Show {showTrash ? 'Notes' : 'Trash'}
+          </button>
+        </div>
+        <div className={styles.notes__container}>
+          {notes.length > 0 ? renderNotes(notes, showTrash) : <div>Loading Data</div>}
+        </div>
+      </div>
+
     </div>
-  )
+  );
 }

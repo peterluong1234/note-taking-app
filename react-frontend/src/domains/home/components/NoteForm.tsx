@@ -5,7 +5,8 @@ import styles from './NoteForm.module.css'
 interface Notes {
   note_id: string,
   title: string,
-  text: string
+  text: string,
+  deleted: boolean,
 }
 
 interface NoteFormProps {
