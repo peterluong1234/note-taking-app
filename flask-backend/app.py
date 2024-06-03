@@ -31,6 +31,7 @@ def init_db():
         user_id INTEGER,
         title TEXT NOT NULL,
         text TEXT NOT NULL,
+        deleted INTEGER DEFAULT 0,
         FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
     )
     '''

@@ -1,5 +1,7 @@
 .notes__home_container {
     display: flex;
+    margin-left: auto;
+    max-width: 1400px;
 }
 
 .notes__sidebar {
