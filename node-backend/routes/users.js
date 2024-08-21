@@ -4,6 +4,4 @@ const { getAllUsers } = require('../controllers/userController');
 
 router.get('/', getAllUsers);
 
-// Add more routes as needed
-
-module.exports = router;
+module.exports = router; 
