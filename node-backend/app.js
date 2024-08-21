@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const initDatabase = require('./db/init');
 const userRoutes = require('./routes/users');
 const noteRoutes = require('./routes/notes');
@@ -8,6 +9,9 @@ const port = 3001;
 
 // Middleware
 app.use(express.json());
+
+// Enabling Cors
+app.use(cors());
 
 // Database connection
 initDatabase();

@@ -21,7 +21,7 @@ interface Note {
 const Note: React.FC<Note> = ({ title, text, user_id, note_id, deleted, setNotes }) => {
     const fetchNotes = async () => {
         try {
-          const response = await axios.get(`http://127.0.0.1:5000/notes/all/1`)
+          const response = await axios.get(`http://localhost:3001/notes/1`)
           const notesData = await response.data;
           return notesData
         } catch (error) {
@@ -32,7 +32,7 @@ const Note: React.FC<Note> = ({ title, text, user_id, note_id, deleted, setNotes
 
     const handleDeleteClick = async () => {
         try {
-            const response = await axios.post(`http://localhost:5000/notes/toggle_deleted/${user_id}/${note_id}`)
+            const response = await axios.put(`http://localhost:3001/notes/toggle_deleted/${note_id}`)
             const data = await response.data
             console.log(data)
             const updatedNotes = await fetchNotes()
@@ -55,7 +55,7 @@ const Note: React.FC<Note> = ({ title, text, user_id, note_id, deleted, setNotes
             <button className={styles.note__update_btn}>Update</button>
             </div>
             <div className={styles.note__header}>
-                <h3 className={styles.note__title}>{title}</h3>     
+                <h3 className={styles.note__title}>{title}</h3>
             </div>
             <p className={styles.note__text}>{ text }</p>
         </div>

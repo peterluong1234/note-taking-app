@@ -21,8 +21,8 @@ export const Home: React.FC<UserId> = ({ userId }) => {
 
   const fetchNotes = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/notes/all/1`)
-      console.log("Response Data:", response.data)
+      const response = await axios.get(`http://localhost:3001/notes/1`)
+      console.log("Response Data:", response)
       return response.data
     } catch (error) {
       console.error(error)
@@ -34,7 +34,7 @@ export const Home: React.FC<UserId> = ({ userId }) => {
     const getNotes = async () => {
       try {
         const notesData = await fetchNotes();
-        console.log(notesData)
+        console.log("useeffect notesdata", notesData)
         setNotes(notesData)
       } catch (error) {
         console.error(error)
@@ -45,7 +45,8 @@ export const Home: React.FC<UserId> = ({ userId }) => {
   }, [])
 
   const renderNotes = (notes: Notes[], showTrash: boolean) => {
-    return notes.filter(note => note.deleted === showTrash).map((note) => (
+    // console.log('testtestest', notes)
+    return notes.filter(note => Boolean(note.deleted) === showTrash).map((note) => (
       <Note
         key={note.note_id}
         title={note.title}
@@ -78,12 +79,12 @@ export const Home: React.FC<UserId> = ({ userId }) => {
           {notes.length > 0 ? renderNotes(notes, showTrash) : <div>Loading Data</div>}
         </div>
       </div>
-      <div className={styles.notes__update_container}>
+      {/* <div className={styles.notes__update_container}>
         <form action="" className={styles.notes__form}>
           <input />
           <textarea />
         </form>
-      </div>
+      </div> */}
     </div>
   );
 }

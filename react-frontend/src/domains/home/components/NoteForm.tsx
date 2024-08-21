@@ -28,7 +28,7 @@ const NoteForm: React.FC<NoteFormProps> = ({ userId, setNotes }) => {
 
   const fetchNotes = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:5000/notes/all/1`)
+      const response = await axios.get(`http://localhost:3001/notes/1`)
       const notesData = await response.data;
       return notesData
     } catch (error) {
@@ -42,7 +42,7 @@ const NoteForm: React.FC<NoteFormProps> = ({ userId, setNotes }) => {
 
     try {
       console.log(formData)
-      const response = await axios.post('http://127.0.0.1:5000/notes', formData);
+      const response = await axios.post('http://localhost:3001/notes', formData);
       console.log('Form successfully submitted ', response.data)
       const updatedNotes = await fetchNotes()
       setNotes(updatedNotes)
