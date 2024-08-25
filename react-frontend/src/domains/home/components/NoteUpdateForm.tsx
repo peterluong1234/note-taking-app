@@ -1,5 +1,6 @@
 import styles from './NoteForm.module.css'
 import { useState } from 'react'
+
 const NoteUpdateForm = () => {
   const [formData, setFormData] = useState({
     text: '',

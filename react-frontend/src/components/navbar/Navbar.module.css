@@ -1,14 +1,14 @@
 .navbar__container {
   height: 50px;
   padding: 10px 20px;
-  max-width: 90%;
+  max-width: 100%;
   background-color: white;
   border: 1px solid black;
   border-radius: 15px;
   box-shadow: 5px 5px 0px black;
   margin-top: 10px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 25px;
+  margin-right: 25px;
 }
 
 .navbar__header {

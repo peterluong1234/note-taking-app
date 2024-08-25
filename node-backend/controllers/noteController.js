@@ -79,10 +79,37 @@ const updateNoteDeleteStatus = (req, res) => {
   })
 }
 
+const updateNote = (req, res) => {
+  const noteId = req.params.noteId;
+
+  db.query('SELECT * FROM notes WHERE note_id = ?', [noteId], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    const { title, text } = results[0];
+
+    let noteTitle = req.body.title || title
+    let noteText = req.body.text || text
+
+    db.query(
+      `UPDATE notes
+      SET title = ?, text = ?
+      WHERE note_id = ?`, [noteTitle, noteText, noteId], (err, results) => {
+        if (err) {
+          return res.status(500).json({ error: err.message });
+        }
+        res.status(200).json({ message: 'Note updated successfully', noteId });
+      }
+    )
+  })
+}
+
 module.exports = {
   getAllNotes,
   getNotesByUserId,
   createNote,
   deleteNote,
-  updateNoteDeleteStatus
+  updateNoteDeleteStatus,
+  updateNote,
 }

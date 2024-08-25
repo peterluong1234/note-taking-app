@@ -8,7 +8,6 @@
     border: 1px solid black;
     border-radius: 15px;
     box-shadow: 3px 3px 0px black;
-    
 }
 
 .note__container {
@@ -50,14 +49,35 @@
 }
 
 .note__title {
+    font-family: 'Archivo', sans-serif;
     font-size: 20px;
     font-weight: 500;
     margin: 0;
-    text-overflow: clip;
     margin-bottom: 5px;
+    padding: 5px;
+    resize: none;
+    width: 100%;
+}
+
+.note__title:hover {
+    transition: .2s;
+    background-color: rgb(236, 236, 179);
 }
 
 .note__text {
+    font-family: 'Archivo', sans-serif;
     font-size: 17px;
     margin: 10px 0;
+    padding: 5px;
+}
+
+.note__text:hover {
+    transition: .2s;
+    background-color: rgb(236, 236, 179);
+}
+
+@media screen and (max-width: 1000px) {
+    .note__card {
+        flex: 0 0 45%;
+    }
 }

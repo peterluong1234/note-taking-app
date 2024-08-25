@@ -7,12 +7,14 @@ import { Home } from './domains/home/pages/Home';
 import { LoginPage } from './domains/authentication/pages/LoginPage';
 import { SignUpPage } from './domains/authentication/pages/SignUpPage';
 import { Navbar } from './components/navbar/Navbar';
+import NoteUpdateForm from './domains/home/components/NoteUpdateForm';
 
 function App() {
   // useEffect(() => {
   //   fetch('http://127.0.0.1:5000/').then(response =>  response.json()).then(data => console.log(data))
   // })
   const [user,setUser] = useState('1')
+  const [noteId, setNoteId] = useState<number | undefined>(undefined);
 
   const handleClick = async () => {
     try {
@@ -35,9 +37,10 @@ function App() {
       <Navbar links={navLinks}/>
 
       <Routes>
-        <Route path='/' element={<Home userId={user} />}/>
+        <Route path='/' element={<Home userId={user} setNoteId={setNoteId} />}/>
         <Route path='/login' element={<LoginPage />} />
-        <Route path ='/signup' element={<SignUpPage />} />
+        <Route path='/signup' element={<SignUpPage />} />
+        <Route path='/notes/:noteId' element={<NoteUpdateForm />} />
       </Routes>
     </div>
   );

@@ -3,9 +3,11 @@ import NoteForm from "../components/NoteForm"
 import axios from "axios"
 import Note from "../components/Note"
 import styles from './Home.module.css'
+import NoteUpdateForm from "../components/NoteUpdateForm"
 
 interface UserId {
-  userId: string
+  userId: string,
+  setNoteId: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
 interface Notes {
@@ -15,7 +17,7 @@ interface Notes {
   deleted: boolean,
 }
 
-export const Home: React.FC<UserId> = ({ userId }) => {
+export const Home: React.FC<UserId> = ({ userId, setNoteId }) => {
   const [notes, setNotes] = useState<Notes[]>([]);
   const [showTrash, setShowTrash] = useState(false);
 
@@ -61,8 +63,8 @@ export const Home: React.FC<UserId> = ({ userId }) => {
 
   return (
     <div className={styles.notes__home_container}>
+        {/* <NoteUpdateForm /> */}
       <div className={styles.notes__sidebar}>
-        <h2>Add Note</h2>
         <NoteForm userId={userId} setNotes={setNotes} />
       </div>
       <div className={styles.notes__display_container}>
@@ -79,12 +81,7 @@ export const Home: React.FC<UserId> = ({ userId }) => {
           {notes.length > 0 ? renderNotes(notes, showTrash) : <div>Loading Data</div>}
         </div>
       </div>
-      {/* <div className={styles.notes__update_container}>
-        <form action="" className={styles.notes__form}>
-          <input />
-          <textarea />
-        </form>
-      </div> */}
+
     </div>
   );
 }
